@@ -61,7 +61,9 @@ class Automate(object):
         return aprt
 
 
-A = Automate(["a", "b"], 0, ["S0", "S1"], [0, 1], [
+# Automate(alphabet , l'etat initial  , tous les etats ,  liste des etats final,
+# list des instruction)
+A = Automate(["a", "b"], 0, ["S0", "S1"], [1], [
     (0, "a", 0), (0, "a", 1), (1, "b", 1), (1, "b", 0)])
 print(A)
-print(A.reconnaissance("aba"))
+print(A.reconnaissance("abaabababababab"))
