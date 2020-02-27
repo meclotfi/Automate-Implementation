@@ -23,6 +23,7 @@ class Automate(object):
         return l
 
     def reconnaissance(self, word):
+        """retourne vrai si word est reconnus par l automate A et faux sinon"""
         actu = self.So
         j = 0
         list = []
