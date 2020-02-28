@@ -37,6 +37,8 @@ class Automate(object):
                 list = self.succ(actu, word[j])
             else:
                 back = False
+            print("j=="+str(j)+"  on a "+str(len(list))+" choix " +
+                  str([self.S[l[2]] for l in list]))
             if(len(list) == 0):
                 if(len(pile) == 0):
                     aprt = False
