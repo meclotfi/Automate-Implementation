@@ -63,17 +63,21 @@ class Automate(object):
         st = ''
         apt, trace = self.reconnaissance(word)
         if(apt == True):
-            st = "le mot "+word+"  est reconnus par l'automate A=" + \
+            st = "le mot <<"+word+">>  est reconnus par l'automate A=" + \
                 self.__str__()+"et son trace est: \n"
             j = 0
             for i in trace:
-                st = st+"---->"+self.S[trace[i]]+word[:j]
+                st = st+self.S[trace[i]]+" "+word[:j]+"---->"
                 j = j+1
-        return st+"---->"+word
+            st = st+word
+        else:
+            st = st = "le mot <<"+word+">>  n'est pas reconnus par l'automate A=" + \
+                self.__str__()
+        return st
 
 
 # Automate(alphabet , l'etat initial  , tous les etats ,  liste des etats final,
 # list des instruction)
 A = Automate(["a", "b"], 0, ["S0", "S1"], [1], [
     (0, "a", 0), (0, "a", 1), (1, "b", 1), (1, "b", 0)])
-print(A.afficher_trace("abaab"))
+print(A.afficher_trace("abaabab"))
