@@ -29,7 +29,7 @@ class Automate(object):
         list = []
         aprt = True
         pile = []
-        trace = [w for w in word]
+        trace = [w for w in word+"s"]
         trace[0] = self.So
         back = False
         while((j < len(word)) & (aprt)):
@@ -37,7 +37,6 @@ class Automate(object):
                 list = self.succ(actu, word[j])
             else:
                 back = False
-            print("j==="+str(j)+"   list="+str(list))
             if(len(list) == 0):
                 if(len(pile) == 0):
                     aprt = False
@@ -46,21 +45,21 @@ class Automate(object):
                     print(elt)
                     actu = elt[0][0][2]
                     j = elt[1]
-                    trace[j] = actu
+                    trace[j+1] = actu
                     list = elt[0]
                     back = True
                     if(len(elt[0]) > 1):
                         pile.append((elt[0][1:], elt[1]))
             else:
                 if(len(list) == 1):
-                    trace[j] = actu
                     j = j+1
                     actu = list[0][2]
+                    trace[j] = actu
                 else:
                     pile.append((list[1:], j))
                     actu = list[0][2]
                     j = j+1
-                    trace[j-1] = actu
+                    trace[j] = actu
                     if((j == len(word)) & (len(list[1:]) > 0) & (not(actu in self.F))):
                         j = j-1
                         list = list[1:]
@@ -75,13 +74,14 @@ class Automate(object):
     def afficher_trace(self, word):
         st = ''
         apt, trace = self.reconnaissance(word)
+
         if(apt == True):
-            st = "le mot <<"+word+">>  est reconnus par l'automate A=" + self.__str__() + \
+            st = "le mot <<"+word+">>  est reconnus par l'automate A=" + self.__str__() +\
                 "et son trace est: \n"
 
             j = 0
             for i in trace:
-                st = st+word[:j]+" "+self.S[trace[i]]+"---->"
+                st = st+word[:j]+" "+self.S[i]+"---->"
                 j = j+1
             st = st+word
         else:
@@ -93,4 +93,4 @@ class Automate(object):
 # list des instruction)
 A = Automate(["a", "b"], 0, ["S0", "S1", "S2"], [2], [
     (0, "a", 0), (0, "a", 1), (1, "b", 1), (1, "b", 0), (1, "b", 2), (2, "c", 2), (2, "c", 1), (2, "c", 0)])
-print(A.afficher_trace("abbabc"))
+print(A.afficher_trace("abbcab"))
