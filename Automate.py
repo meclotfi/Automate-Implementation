@@ -29,42 +29,51 @@ class Automate(object):
         list = []
         aprt = True
         pile = []
-        index = 0
+        trace = [w for w in word]
+        trace[0] = self.So
         while((j < len(word)) & (aprt)):
             list = self.succ(actu, word[j])
-            print(list)
             if(len(list) == 0):
                 if(len(pile) == 0):
                     aprt = False
                 else:
-                    print("phase depilement")
                     elt = pile.pop()
-                    print(len(elt))
                     actu = elt[0][0][2]
                     j = elt[1]
-                    print((actu, j))
+                    trace[j] = actu
                     if(len(elt[0]) > 0):
                         pile.append((elt[0][1:], elt[1]))
             else:
                 if(len(list) == 1):
+                    trace[j] = actu
                     j = j+1
                     actu = list[0][2]
                 else:
-                    print("phase empilement")
                     j = j+1
-                    print((list[1:], j))
                     pile.append((list[1:], j))
                     actu = list[0][2]
+                    trace[j-1] = actu
         if((j == len(word)) & (actu in self.F)):
             aprt = True
         else:
             aprt = False
-        return aprt
+        return aprt, trace
+
+    def afficher_trace(self, word):
+        st = ''
+        apt, trace = self.reconnaissance(word)
+        if(apt == True):
+            st = "le mot "+word+"  est reconnus par l'automate A=" + \
+                self.__str__()+"et son trace est: \n"
+            j = 0
+            for i in trace:
+                st = st+"---->"+self.S[trace[i]]+word[:j]
+                j = j+1
+        return st+"---->"+word
 
 
 # Automate(alphabet , l'etat initial  , tous les etats ,  liste des etats final,
 # list des instruction)
 A = Automate(["a", "b"], 0, ["S0", "S1"], [1], [
     (0, "a", 0), (0, "a", 1), (1, "b", 1), (1, "b", 0)])
-print(A)
-print(A.reconnaissance("abaabababababab"))
+print(A.afficher_trace("abaab"))
