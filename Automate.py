@@ -93,6 +93,6 @@ class Automate(object):
 
 # Automate(alphabet , l'etat initial  , tous les etats ,  liste des etats final,
 # list des instruction)
-A = Automate(["a", "b"], 0, ["S0", "S1", "S2"], [2], [
-    (0, "a", 0), (0, "a", 1), (1, "b", 1), (1, "b", 0), (1, "b", 2), (2, "c", 2), (2, "c", 1), (2, "c", 0)])
-print(A.afficher_trace("abbcab"))
+A = Automate(["a", "b", "c"], 0, ["S0", "S1", "S2"], [2], [
+    (0, "a", 0), (0, "a", 1), (0, "c", 2), (1, "b", 1), (1, "b", 0), (1, "b", 2), (2, "c", 2), (2, "c", 1), (2, "c", 0)])
+print(A.afficher_trace("accaccabc"))
