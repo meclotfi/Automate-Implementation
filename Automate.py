@@ -1,10 +1,23 @@
 class Automate(object):
     def __init__(self, X, So, S, F, I):
         self.X = X
-        self.So = So
+        self.So = int(So)
         self.S = S
         self.F = F
         self.I = I
+        # verification de l'alphabet
+        if not all(len(s) == 1 for s in X):
+            raise Exception("alphabet est fausse")
+        # conformite de l'etat initiale et fineaux
+        if (So >= len(S)):
+            raise Exception("etat initiale non existant")
+        for f in F:
+            if f >= len(S):
+                raise Exception("etat finale non existant")
+        # verification des instructions
+        for i in I:
+            if((i[0] >= len(S)) | (i[2] >= len(S)) | (not (i[1] in X))):
+                raise Exception("Instruction "+str(i)+"est fausse")
 
     def __str__(self):
         st = ""
@@ -97,7 +110,7 @@ class Automate(object):
 
         m = any((val1[0] == val2[0]) & (val1[1] == val2[1]) & (
             val1[2] != val2[2]) for val1 in self.I for val2 in self.I)
-        type2 = ["deterministe" if m else "non deterministe"]
+        type2 = ["deterministe" if not m else "non deterministe"]
         return "l'automate est :"+str(typ1[0])+" "+str(type2[0])
 
 
@@ -105,5 +118,6 @@ class Automate(object):
 # list des instruction)
 A = Automate(["a", "b", "c"], 0, ["S0", "S1", "S2"], [2], [
     (0, "a", 0), (0, "a", 1), (0, "c", 2), (1, "b", 1), (1, "b", 0), (1, "b", 2), (2, "c", 2), (2, "c", 1), (2, "c", 0)])
-# print(A.afficher_trace("accaccabc"))
+#
 print(A.Type())
+# print(A.afficher_trace("accaccabc"))
