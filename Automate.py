@@ -90,9 +90,20 @@ class Automate(object):
             st = st + "le mot <<"+word+">>  n'est pas reconnus par l'automate A=" + self.__str__()
         return st
 
+    def Type(self):
+        s = [len(s[1]) == 1 for s in self.I]
+        simp = any(v == False for v in s)
+        typ1 = ["simple" if not simp else "general"]
+
+        m = any((val1[0] == val2[0]) & (val1[1] == val2[1]) & (
+            val1[2] != val2[2]) for val1 in self.I for val2 in self.I)
+        type2 = ["deterministe" if m else "non deterministe"]
+        return "l'automate est :"+str(typ1[0])+" "+str(type2[0])
+
 
 # Automate(alphabet , l'etat initial  , tous les etats ,  liste des etats final,
 # list des instruction)
 A = Automate(["a", "b", "c"], 0, ["S0", "S1", "S2"], [2], [
     (0, "a", 0), (0, "a", 1), (0, "c", 2), (1, "b", 1), (1, "b", 0), (1, "b", 2), (2, "c", 2), (2, "c", 1), (2, "c", 0)])
-print(A.afficher_trace("accaccabc"))
+# print(A.afficher_trace("accaccabc"))
+print(A.Type())
